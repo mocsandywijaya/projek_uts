@@ -1,17 +1,12 @@
+// router.ts
 export type StackParamList = {
   GetStarted: undefined;
-  Home: undefined;
-  Detail: {
-    title: string;
-    image: any;
-    ingredients: string[];
-    instructions: string[];
-  };
+  Home: { userId?: string };
+  SignUp: undefined;
   RecipeDetail: {
     title: string;
     image: any;
     ingredients: string[];
     instructions: string[];
   };
-  SignUp: undefined;  // Tambahkan ini untuk mendukung navigasi ke layar SignUp
 };

@@ -2,11 +2,11 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from './Screens/HomeScreen';
+import HomeScreen from './Screens/HomeScreen';
 import GetStarted from './Screens/GetStarted';
-import SignUp from './Screens/SignUpScreen';
+import SignUpScreen from './Screens/SignUpScreen';
 import RecipeDetail from './Screens/RecipeDetail';
-import { StackParamList } from './Screens/router';
+import { StackParamList } from './Screens/router'; // Pastikan tipe didefinisikan
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -21,18 +21,21 @@ const App = () => {
         />
         <Stack.Screen
           name="SignUp"
-          component={SignUp}
+          component={SignUpScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Home"
-          component={Home}
+          component={HomeScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="RecipeDetail"
           component={RecipeDetail}
-          options={{ headerShown: false }}
+          options={{
+            headerTitle: 'Detail Resep',
+            headerBackTitleVisible: false,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,6 +1,7 @@
 import { NavigationProp } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, ImageBackground } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ImageBackground, Alert } from 'react-native';
+import axios from 'axios';
 import { StackParamList } from './router';
 
 type SignUpScreenProps = {
@@ -11,9 +12,21 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignUp = () => {
-    // Logika sign-up (misalnya, penyimpanan data ke database)
-    navigation.navigate('Home'); // Navigasi langsung ke Home setelah sign-up berhasil
+  const handleSignUp = async () => {
+    try {
+      const response = await axios.post('https://67510e9869dc1669ec1cfadb.mockapi.io/Register', {
+        email,
+        password,
+      });
+
+      if (response.status === 201) {
+        Alert.alert('Sukses', 'Registrasi berhasil!');
+        navigation.navigate('GetStarted'); // Navigasi ke Home setelah berhasil registrasi
+      }
+    } catch (error) {
+      console.error('SignUp Error:', error);
+      Alert.alert('Kesalahan', 'Terjadi kesalahan saat registrasi.');
+    }
   };
 
   return (
@@ -40,10 +53,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <Button 
-          title="Daftar"
-          onPress={handleSignUp}
-        />
+        <Button title="Daftar" onPress={handleSignUp} />
       </View>
     </ImageBackground>
   );

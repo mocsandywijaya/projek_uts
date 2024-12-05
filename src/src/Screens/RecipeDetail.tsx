@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
-import { StackParamList } from './router'; // Impor dari router.ts
+import { StackParamList } from './router';
 
 type RecipeDetailRouteProp = RouteProp<StackParamList, 'RecipeDetail'>;
 
@@ -32,11 +32,28 @@ const RecipeDetail: React.FC<Props> = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 10 },
-  image: { width: '100%', height: 200, borderRadius: 10 },
-  title: { fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginVertical: 10 },
-  sectionTitle: { fontSize: 18, fontWeight: 'bold', marginTop: 20 },
-  content: { fontSize: 16, lineHeight: 24 },
+  container: { padding: 15 },
+  image: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 20,
+  },
+  content: {
+    fontSize: 16,
+    lineHeight: 24,
+  },
 });
 
-export default RecipeDetail;
+export default RecipeDetail;

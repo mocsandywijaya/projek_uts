@@ -1,6 +1,7 @@
+import axios from 'axios';
 import { NavigationProp } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ImageBackground, Alert } from 'react-native';
 import { StackParamList } from './router';
 
 type LoginScreenProps = {
@@ -11,13 +12,30 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Lakukan logika autentikasi di sini
-    navigation.navigate('Home'); // Jika login berhasil, navigasi ke Home
+  const handleLogin = async () => {
+    try {
+      // Fetch user data from API
+      const response = await axios.get('https://67510e9869dc1669ec1cfadb.mockapi.io/Users');
+      const user = response.data.find(
+        (u: { email: string; password: string }) => u.email === email && u.password === password
+      );
+
+      if (user) {
+        // Successful login
+        Alert.alert('Login Berhasil', `Selamat datang, ${user.email}!`);
+        navigation.navigate('Home', { userId: user.id }); // Pass userId to Home screen
+      } else {
+        // Login failed
+        Alert.alert('Login Gagal', 'Email atau password salah');
+      }
+    } catch (error) {
+      console.error('Login Error:', error);
+      Alert.alert('Kesalahan', 'Terjadi kesalahan saat mencoba login.');
+    }
   };
 
   const handleSignUpNavigation = () => {
-    navigation.navigate('SignUp'); // Navigasi ke halaman SignUp
+    navigation.navigate('SignUp');
   };
 
   return (
@@ -44,13 +62,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <Button 
-          title="Masuk"
-          onPress={handleLogin}
-        />
-        <TouchableOpacity onPress={handleSignUpNavigation}>
-          <Text style={styles.signUpText}>Belum punya akun? Daftar di sini</Text>
-        </TouchableOpacity>
+        <Button title="Masuk" onPress={handleLogin} />
+        <Text style={styles.signUpText} onPress={handleSignUpNavigation}>
+          Belum punya akun? Daftar di sini
+        </Text>
       </View>
     </ImageBackground>
   );
